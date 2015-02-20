@@ -11,10 +11,51 @@
         <h:outputScript name="./js/bootstrap.min.js"/>
     </h:head>
     <h:body>
-        <c:forEach var="gato" items="#{cargaDatos.obtenListaMascotas()}">
-            <h:outputText value="#{gato.nombreMascota}"/><br/>
-            <h:outputText value="#{gato.descripcion}"/><br/>
-        </c:forEach>
+        <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="col-xs-5">
+                <table class="table table-bordered table-striped table-condensed">
+                    <c:forEach var="gato" items="#{cargaDatos.obtenListaMascotas()}">
+                        <tr>
+                            <td>        
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="##{gato.mascotaId}">
+                                    #{gato.nombreMascota}
+                                </button>
+                                <p> #{gato.precio} € </p>
+                            </td>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="#{gato.mascotaId}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">#{gato.nombreMascota}</h4>
+                                        </div>
+                                        
+                                        <div class="modal-body" style="text-align: center;">
+                                            <h:graphicImage  value="resources/images/#{gato.imageurl}"/>
+                                            <br/>
+                                            #{gato.descripcion}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <td>
+                                <h:graphicImage  value="resources/images/#{gato.imagethumburl}"/> 
+
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+            <div class="col-xs-6"></div>
+        </div>
     </h:body>
 </html>
 
