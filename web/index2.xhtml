@@ -8,27 +8,30 @@
         <title>Tienda de Mascotas!</title>
         <h:outputStylesheet name="./css/bootstrap.min.css"/>
         <h:outputStylesheet name="./css/bootstrap-theme.min.css"/>
+        <h:outputStylesheet name="./css/jquery.gridster.min.css"/>
+        <h:outputStylesheet name="./css/style.css"/>
+        
         <h:outputScript name="./js/jquery-1.11.2.min.js"/>
         <h:outputScript name="./js/bootstrap.min.js"/>
+        <h:outputScript name="./js/jquery.gridster.min.js"/>
     </h:head>
     <h:body>
+        
 
         <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-5">
-                <table class="table table-bordered table-striped table-condensed">
-                    <tr>
+              <div class="gridster ready">
+                    <ul style=" position: relative;">
                         <c:forEach var="gato" items="#{cargaDatos.obtenListaMascotas()}" varStatus="contador">
-                            <td>        
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="##{gato.mascotaId}">
+                            <li data-row="#{gato.mascotaId}" data-col="#{contador.index % 9 +1}" data-sizex="1" data-sizey="1" class="gs-w"><span class="gs-resize-handle gs-resize-handle-both"></span>
+                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="##{gato.mascotaId}">
                                     #{gato.nombreMascota}
                                 </button>
                                 <p> #{gato.precio} € </p>
-
                                 <img src="resources/images/#{gato.imagethumburl}" class="img-circle img-thumbnail"  data-toggle="modal" data-target="##{gato.mascotaId}"/> 
-
-                            </td>
-                            <!-- Modal -->
+                            </li>
+                             <!-- Modal -->
                             <div class="modal fade" id="#{gato.mascotaId}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -50,17 +53,31 @@
                                 </div>
                             </div>
                             <!-- / Modal -->
-                            <h:outputText escape="false" value="&lt;/tr&gt; &lt;tr&gt; " rendered="#{contador.index % 9 == 8 }"/>
-                        
-               
                         </c:forEach>
-                    </tr>
-                </table>
+
+                    </ul>
+                </div>
             </div>
             <div class="col-xs-6"></div>
         </div>
-        
-        
+        <script>    
+            var gridster;
+
+            $(function(){
+
+              gridster = $(".gridster > ul").gridster({
+                  widget_margins: [10, 10],
+                  widget_base_dimensions: [140, 140],
+                  min_cols: 6,
+                  resize: {
+                      enabled: true
+                  }
+              }).data('gridster');
+
+
+            });
+        </script> 
+      
     </h:body>
 </html>
 

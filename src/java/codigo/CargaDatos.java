@@ -27,6 +27,11 @@ public class CargaDatos {
         } finally{
             sesion.close();
         }
+//        if (listaMascotas == null){
+//            Mascota m = new Mascota();
+//            listaMascotas.add(m);
+//        }
+
         return listaMascotas;
     }
 }
