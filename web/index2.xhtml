@@ -1,37 +1,35 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
-        <title>Tienda de Mascotas!</title>
-        <h:outputStylesheet name="./css/bootstrap.min.css"/>
-        <h:outputStylesheet name="./css/bootstrap-theme.min.css"/>
-        <h:outputScript name="./js/jquery-1.11.2.min.js"/>
-        <h:outputScript name="./js/bootstrap.min.js"/>
-    </h:head>
-    <h:body>
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+
+        <div class="container-fluid">
         <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-5">
-                <table class="table table-bordered table-striped table-condensed">
-                    <tr>
+                <div class="gridster ready">
+                    <ul>
                     <c:forEach var="gato" items="#{cargaDatos.obtenListaMascotas()}" varStatus="contador">
-                        
-                            <td>        
+                        <li data-row="#{contador.index +1}" 
+                            data-col="#{contador.index % 3 +1}"
+                            data-sizex = "1"
+                            data-sizey = "1"
+                            class="gs-w">        
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="##{gato.mascotaId}">
                                     #{gato.nombreMascota}
                                 </button>
                                 <p> #{gato.precio} € </p>
                                 <img src="resources/images/#{gato.imagethumburl}" class="img-circle img-thumbnail" data-toggle="modal" data-target="##{gato.mascotaId}" style="height:120px; width:120px;" /> 
-                            </td>
+                        </li>
                             
                             <!-- Modal -->
                             <div class="modal fade" id="#{gato.mascotaId}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                                             <h4 class="modal-title" id="myModalLabel">#{gato.nombreMascota}</h4>
                                         </div>
                                         
@@ -47,14 +45,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <h:outputText escape="false" value ="&lt;/tr&gt; &lt;tr&gt;" rendered="#{contador.index % 9 == 8}" />   
-                        
+
                     </c:forEach>
-                    </tr>
-                </table>
+                    </ul>
+                </div>
             </div>
             <div class="col-xs-6"></div>
         </div>
-    </h:body>
-</html>
+        </div>
+        
+        <script>
+            $(function () {
+                var gridster = $(".gridster > ul").gridster({
+                    widget_margins: [10,25],
+                    widget_base_dimensions: [140, 140],
+                    min_cols: 6,
+                    resize:{
+                        enabled:true
+                    }
+                }).data('gridster');
+            });
+        </script>
+    
+</ui:composition>
 
